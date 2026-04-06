@@ -1,23 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
-  const [isStarted, setIsStarted] = useState(false);
+	const [isStarted, setIsStarted] = useState(false);
+	const [questions, setQuestions] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
-  function onStart(){
-    setIsStarted(true);
-  }
-  if (isStarted) return (
-    <>
-      <div class="app-container">
-				<div class="blob-top"></div>
-				<div class="blob-bottom"></div>
+	const API_URL =
+		"https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple";
 
-				<main class="content">
-					<h1>The game has begun!</h1>
-				</main>
-			</div>
-    </>
-  );
+	useEffect(() => {
+		if (!isStarted) return;
+
+		const fetchData = async () => {
+			try {
+				setLoading(true);
+				const response = await fetch(API_URL);
+
+				if (!response.ok) {
+					throw new Error(`HTTP error! status: ${response.status}`);
+				}
+
+				const data = await response.json();
+
+				// Response Code 0 indicates success as per documentation
+				if (data.response_code === 0) {
+					setQuestions(data.results);
+				} else {
+					setError(`API Error: Response Code ${data.response_code}`);
+				}
+			} catch (err) {
+				setError(err.message);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+
+	}, [isStarted]);
+
+  console.log(questions);
+
+
+	function onStart() {
+		setIsStarted(true);
+	}
+
+	if (isStarted)
+		return (
+			<>
+				<div class="app-container">
+					<div class="blob-top"></div>
+					<div class="blob-bottom"></div>
+
+					<main class="content">
+						<h1>{loading ? "Loading...." : `Found ${questions.length} questions`}</h1>
+					</main>
+				</div>
+			</>
+		);
 
 	return (
 		<>
@@ -28,7 +70,9 @@ function App() {
 				<main class="content">
 					<h1>Quizzical</h1>
 					<p>A fun quiz app for all ages. Play for FREE!</p>
-					<button class="start-btn" onClick={onStart}>Start quiz</button>
+					<button class="start-btn" onClick={onStart}>
+						Start quiz
+					</button>
 				</main>
 			</div>
 		</>
