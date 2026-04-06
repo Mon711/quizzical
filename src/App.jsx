@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Question from "./Question";
+import he from "he";
 
 function App() {
 	const [isStarted, setIsStarted] = useState(false);
@@ -61,8 +62,8 @@ function App() {
 								: questions.map((item, index) => {
 										// Combine correct and incorrect answers into one list
 										const allAnswers = [
-											...item.incorrect_answers,
-											item.correct_answer,
+											...item.incorrect_answers.map(ans => he.decode(ans)),
+											he.decode(item.correct_answer),
 										];
 
                     // console.log(allAnswers)
@@ -70,7 +71,7 @@ function App() {
 										return (
 											<Question
 												key={index}
-												question={item.question}
+												question={he.decode(item.question)}
 												allAnswers={allAnswers}
 											/>
 										);

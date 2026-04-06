@@ -126,3 +126,9 @@ p {
 .answer-btn:hover{
   background-color: #D6DBF5;
 }
+
+/* When a user clicks/selects an answer */
+.answer-btn.selected {
+  background-color: #D6DBF5;
+  border: none;
+}

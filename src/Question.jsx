@@ -1,21 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 
-function Question(props){
-    return (
-        <div className="question-container">
-            {/* 1. The Question Text */}
-            <h3 className="question-title">{props.question}</h3>
+function Question(props) {
+	// 1. Initialize state to track the ID or text of the chosen answer
+	const [selectedAnswer, setSelectedAnswer] = useState(null);
 
-            {/* 2. The Answer Buttons */}
-            <div className="answers-group">
-                {props.allAnswers.map((answer, index)=> (
-                    <button key={index} className="answer-btn">
-                        {answer}
-                    </button>
-                ))}
-            </div>
-        </div>
-    )
+	// 2. Function to handle the click event
+	const handleSelect = (answer) => {
+		setSelectedAnswer(answer);
+	};
+
+	return (
+		<div className="question-container">
+			{/* 1. The Question Text */}
+			<h3 className="question-title">{props.question}</h3>
+
+			{/* 2. The Answer Buttons */}
+			<div className="answers-group">
+				{props.allAnswers.map((answer, index) => {
+					// 3. Check if THIS specific answer is the one in state
+					const isSelected = answer === selectedAnswer;
+
+					return (
+						<button
+							key={index}
+							className={`answer-btn ${isSelected ? "selected" : ""}`}
+							onClick={() => handleSelect(answer)}
+						>
+							{answer}
+						</button>
+					);
+				})}
+			</div>
+		</div>
+	);
 }
 
 export default Question;
