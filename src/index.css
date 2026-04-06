@@ -51,6 +51,11 @@
   text-align: center;
 }
 
+.during-game-content{
+  margin-top: 30px;
+  padding: 10px 30px;
+}
+
 h1 {
   font-family: 'Karla', sans-serif;
   font-weight: 400;
@@ -82,4 +87,42 @@ p {
 
 .start-btn:hover {
   opacity: 0.9; /* Slight effect when hovering */
+}
+
+.question-container {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #DBDEF0; /* Light gray divider */
+}
+
+.question-title {
+  color: #293264;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.answers-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px; /* Spacing between buttons */
+  margin-bottom: 10px;
+  /* justify-content: space-around; */
+}
+
+.answer-btn {
+  background-color: transparent;
+  border: 1px solid #4D5B9E; /* Primary blue border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 4px 15px;
+  color: #293264;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+/* Hover effect for better UX */
+.answer-btn:hover{
+  background-color: #D6DBF5;
 }

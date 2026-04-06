@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Question from "./Question";
 
 function App() {
 	const [isStarted, setIsStarted] = useState(false);
@@ -37,11 +38,9 @@ function App() {
 		};
 
 		fetchData();
-
 	}, [isStarted]);
 
-  console.log(questions);
-
+	console.log(questions);
 
 	function onStart() {
 		setIsStarted(true);
@@ -54,8 +53,29 @@ function App() {
 					<div class="blob-top"></div>
 					<div class="blob-bottom"></div>
 
-					<main class="content">
-						<h1>{loading ? "Loading...." : `Found ${questions.length} questions`}</h1>
+					<main class="content during-game-content">
+						{/* <h1>{loading ? "Loading...." : `Found ${questions.length} questions`}</h1> */}
+						<h1>
+							{loading
+								? "Loading...."
+								: questions.map((item, index) => {
+										// Combine correct and incorrect answers into one list
+										const allAnswers = [
+											...item.incorrect_answers,
+											item.correct_answer,
+										];
+
+                    // console.log(allAnswers)
+
+										return (
+											<Question
+												key={index}
+												question={item.question}
+												allAnswers={allAnswers}
+											/>
+										);
+									})}
+						</h1>
 					</main>
 				</div>
 			</>
