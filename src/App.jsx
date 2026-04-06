@@ -7,6 +7,7 @@ function App() {
 	const [questions, setQuestions] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [selectedAnswers, setSelectedAnswers] = useState({});
 
 	const API_URL =
 		"https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple";
@@ -45,6 +46,26 @@ function App() {
 		setIsStarted(true);
 	}
 
+	function handleAnswerSelect(questionIndex, answer) {
+		setSelectedAnswers((prev) => ({
+			...prev,
+			[questionIndex]: answer,
+		}));
+	}
+
+	function checkAnswers () {
+		questions.forEach((question, index)=> {
+			const userAnswer = selectedAnswers[index];
+			const correctAnswer = question.correct_answer;
+
+			if(userAnswer === correctAnswer){
+				console.log(`Question ${index}: CORRECT ✓`);
+			}else {
+				console.log(`Question ${index}: WRONG ✗`);
+			}
+		})
+	}
+
 	if (isStarted)
 		return (
 			<>
@@ -69,16 +90,18 @@ function App() {
 										return (
 											<Question
 												key={index}
+												questionIndex = {index}
 												question={he.decode(item.question)}
 												allAnswers={allAnswers}
-												correctAnswer = {he.decode(item.correct_answer)}
+												correctAnswer={he.decode(item.correct_answer)}
+												onSelectAnswer = {handleAnswerSelect}
 											/>
 										);
 									})}
 						</h1>
 
 						{!loading && questions.length > 0 && (
-							<button className="check-btn">Check answers</button>
+							<button className="check-btn" onClick={checkAnswers}>Check answers</button>
 						)}
 					</main>
 				</div>

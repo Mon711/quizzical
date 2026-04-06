@@ -7,6 +7,8 @@ function Question(props) {
 	// 2. Function to handle the click event
 	const handleSelect = (answer) => {
 		setSelectedAnswer(answer);
+		// Call the function from App to track this selection
+		props.onSelectAnswer(props.questionIndex, answer)
 	};
 
 	return (
