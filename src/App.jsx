@@ -41,8 +41,6 @@ function App() {
 		fetchData();
 	}, [isStarted]);
 
-	console.log(questions);
-
 	function onStart() {
 		setIsStarted(true);
 	}
@@ -62,21 +60,26 @@ function App() {
 								: questions.map((item, index) => {
 										// Combine correct and incorrect answers into one list
 										const allAnswers = [
-											...item.incorrect_answers.map(ans => he.decode(ans)),
+											...item.incorrect_answers.map((ans) => he.decode(ans)),
 											he.decode(item.correct_answer),
 										];
 
-                    // console.log(allAnswers)
+										// console.log(allAnswers)
 
 										return (
 											<Question
 												key={index}
 												question={he.decode(item.question)}
 												allAnswers={allAnswers}
+												correctAnswer = {he.decode(item.correct_answer)}
 											/>
 										);
 									})}
 						</h1>
+
+						{!loading && questions.length > 0 && (
+							<button className="check-btn">Check answers</button>
+						)}
 					</main>
 				</div>
 			</>

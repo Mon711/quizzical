@@ -54,6 +54,7 @@
 .during-game-content{
   margin-top: 30px;
   padding: 10px 30px;
+  max-width: 900px;
 }
 
 h1 {
@@ -90,45 +91,69 @@ p {
 }
 
 .question-container {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 25px;
+  padding-bottom: 25px;
   border-bottom: 1px solid #DBDEF0; /* Light gray divider */
 }
 
 .question-title {
   color: #293264;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 700;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
+  text-align: left;
 }
 
 .answers-group {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px; /* Spacing between buttons */
   margin-bottom: 10px;
-  /* justify-content: space-around; */
 }
 
 .answer-btn {
   background-color: transparent;
-  border: 1px solid #4D5B9E; /* Primary blue border */
-  border-radius: 8px; /* Rounded corners */
-  padding: 4px 15px;
+  border: 1.5px solid #4D5B9E; /* Primary blue border */
+  border-radius: 25px; /* Pill shape */
+  padding: 9px 18px;
   color: #293264;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-family: 'Inter', sans-serif;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Hover effect for better UX */
 .answer-btn:hover{
   background-color: #D6DBF5;
+  border-color: #4D5B9E;
 }
 
 /* When a user clicks/selects an answer */
 .answer-btn.selected {
   background-color: #D6DBF5;
+  border: 1.5px solid #4D5B9E;
+  font-weight: 500;
+}
+
+.check-btn {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #F5F7FB;
+  background-color: #4D5B9E;
   border: none;
+  border-radius: 15px;
+  padding: 15px 30px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.check-btn:hover {
+  opacity: 0.9; /* Slight effect when hovering */
 }
