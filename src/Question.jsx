@@ -11,6 +11,10 @@ function Question(props) {
 		props.onSelectAnswer(props.questionIndex, answer)
 	};
 
+	function isCorrect(index){
+
+	}
+
 	return (
 		<div className="question-container">
 			{/* 1. The Question Text */}
@@ -21,12 +25,25 @@ function Question(props) {
 				{props.allAnswers.map((answer, index) => {
 					// 3. Check if THIS specific answer is the one in state
 					const isSelected = answer === selectedAnswer;
+					const isCorrect = answer === props.correctAnswer;
 
-					return (
+					return !props.isCompleted ? (
 						<button
 							key={index}
 							className={`answer-btn ${isSelected ? "selected" : ""}`}
 							onClick={() => handleSelect(answer)}
+						>
+							{answer}
+						</button>
+					) :
+					(
+						<button
+							key={index}
+							className={`answer-btn ${
+								isCorrect ? "correct" : isSelected ? "incorrect" : "dimmed"
+							}`}
+							onClick={() => handleSelect(answer)}
+							disabled
 						>
 							{answer}
 						</button>

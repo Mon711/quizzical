@@ -98,16 +98,16 @@ p {
 
 .question-title {
   color: #293264;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   text-align: left;
 }
 
 .answers-group {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px; /* Spacing between buttons */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px; /* Spacing between buttons */
   margin-bottom: 10px;
 }
 
@@ -115,9 +115,9 @@ p {
   background-color: transparent;
   border: 1.5px solid #4D5B9E; /* Primary blue border */
   border-radius: 25px; /* Pill shape */
-  padding: 9px 18px;
+  padding: 7px 15px;
   color: #293264;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   font-family: 'Inter', sans-serif;
   font-weight: 500;
   cursor: pointer;
@@ -135,6 +135,28 @@ p {
   background-color: #D6DBF5;
   border: 1.5px solid #4D5B9E;
   font-weight: 500;
+}
+
+/* Correct answer state after submission */
+.answer-btn.correct {
+  background-color: #94D7A2;
+  border-color: #94D7A2;
+}
+
+/* Incorrect answer state after submission */
+.answer-btn.incorrect {
+  background-color: #F8BCBC;
+  border-color: #F8BCBC;
+  opacity: 0.5;
+}
+
+/* Dim unselected answers after submission */
+.answer-btn.dimmed {
+  opacity: 0.5;
+}
+
+.answer-btn:disabled{
+  cursor: not-allowed;
 }
 
 .check-btn {

@@ -85,12 +85,8 @@ function App() {
 				setCorrectAnswers((prev) => [...prev, index]);
 			}
 
+
 			setIsCompleted(true);
-			// if(userAnswer === correctAnswer){
-			// 	console.log(`Question ${index}: CORRECT ✓`);
-			// }else {
-			// 	console.log(`Question ${index}: WRONG ✗`);
-			// }
 		});
 	}
 
@@ -115,6 +111,8 @@ function App() {
 												allAnswers={item.allAnswers}
 												correctAnswer={he.decode(item.correct_answer)}
 												onSelectAnswer={handleAnswerSelect}
+												isCompleted={isCompleted}
+												correctAnswers={correctAnswers}
 											/>
 										);
 									})}
