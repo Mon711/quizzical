@@ -14,6 +14,17 @@ function App() {
 	const allAnswersSelected =
 		Object.keys(selectedAnswers).length === questions.length;
 
+	// Implement Fisher-Yates (Knuth) Shuffle algo to randomise
+	// the correct ans in the incorrect ans array
+	function shuffle(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+
+		return array;
+	}
+
 	const API_URL =
 		"https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple";
 
@@ -33,7 +44,14 @@ function App() {
 
 				// Response Code 0 indicates success as per documentation
 				if (data.response_code === 0) {
-					setQuestions(data.results);
+					const processedQuestions = data.results.map((item) => ({
+						...item,
+						allAnswers: shuffle([
+							...item.incorrect_answers.map((ans) => he.decode(ans)),
+							he.decode(item.correct_answer),
+						]),
+					}));
+					setQuestions(processedQuestions);
 				} else {
 					setError(`API Error: Response Code ${data.response_code}`);
 				}
@@ -89,20 +107,12 @@ function App() {
 							{loading
 								? "Loading...."
 								: questions.map((item, index) => {
-										// Combine correct and incorrect answers into one list
-										const allAnswers = [
-											...item.incorrect_answers.map((ans) => he.decode(ans)),
-											he.decode(item.correct_answer),
-										];
-
-										// console.log(allAnswers)
-
 										return (
 											<Question
 												key={index}
 												questionIndex={index}
 												question={he.decode(item.question)}
-												allAnswers={allAnswers}
+												allAnswers={item.allAnswers}
 												correctAnswer={he.decode(item.correct_answer)}
 												onSelectAnswer={handleAnswerSelect}
 											/>
