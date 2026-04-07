@@ -4,10 +4,15 @@ import he from "he";
 
 function App() {
 	const [isStarted, setIsStarted] = useState(false);
+	const [isCompleted, setIsCompleted] = useState(false);
 	const [questions, setQuestions] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const [selectedAnswers, setSelectedAnswers] = useState({});
+	const [correctAnswers, setCorrectAnswers] = useState([]);
+
+	const allAnswersSelected =
+		Object.keys(selectedAnswers).length === questions.length;
 
 	const API_URL =
 		"https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple";
@@ -53,17 +58,22 @@ function App() {
 		}));
 	}
 
-	function checkAnswers () {
-		questions.forEach((question, index)=> {
+	function checkAnswers() {
+		questions.forEach((question, index) => {
 			const userAnswer = selectedAnswers[index];
 			const correctAnswer = question.correct_answer;
 
-			if(userAnswer === correctAnswer){
-				console.log(`Question ${index}: CORRECT ✓`);
-			}else {
-				console.log(`Question ${index}: WRONG ✗`);
+			if (userAnswer === correctAnswer) {
+				setCorrectAnswers((prev) => [...prev, index]);
 			}
-		})
+
+			setIsCompleted(true);
+			// if(userAnswer === correctAnswer){
+			// 	console.log(`Question ${index}: CORRECT ✓`);
+			// }else {
+			// 	console.log(`Question ${index}: WRONG ✗`);
+			// }
+		});
 	}
 
 	if (isStarted)
@@ -90,18 +100,33 @@ function App() {
 										return (
 											<Question
 												key={index}
-												questionIndex = {index}
+												questionIndex={index}
 												question={he.decode(item.question)}
 												allAnswers={allAnswers}
 												correctAnswer={he.decode(item.correct_answer)}
-												onSelectAnswer = {handleAnswerSelect}
+												onSelectAnswer={handleAnswerSelect}
 											/>
 										);
 									})}
 						</h1>
 
 						{!loading && questions.length > 0 && (
-							<button className="check-btn" onClick={checkAnswers}>Check answers</button>
+							<div className="footer-container">
+								{isCompleted ? (
+									<p>
+										You scored {correctAnswers.length}/{questions.length}{" "}
+										correct answers
+									</p>
+								) : (
+									<button
+										className="check-btn"
+										onClick={checkAnswers}
+										disabled={!allAnswersSelected}
+									>
+										Check answers
+									</button>
+								)}
+							</div>
 						)}
 					</main>
 				</div>

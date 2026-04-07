@@ -154,3 +154,8 @@ p {
 .check-btn:hover {
   opacity: 0.9; /* Slight effect when hovering */
 }
+
+.check-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
