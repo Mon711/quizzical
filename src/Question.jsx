@@ -10,11 +10,7 @@ function Question(props) {
 		// Call the function from App to track this selection
 		props.onSelectAnswer(props.questionIndex, answer)
 	};
-
-	function isCorrect(index){
-
-	}
-
+	
 	return (
 		<div className="question-container">
 			{/* 1. The Question Text */}

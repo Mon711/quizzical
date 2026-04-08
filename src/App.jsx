@@ -67,6 +67,15 @@ function App() {
 
 	function onStart() {
 		setIsStarted(true);
+		
+	}
+
+	function onRestart() {
+		setIsStarted(false);
+		setLoading(true);
+		setIsCompleted(false);
+		setSelectedAnswers({});
+		setCorrectAnswers([]);
 	}
 
 	function handleAnswerSelect(questionIndex, answer) {
@@ -77,17 +86,18 @@ function App() {
 	}
 
 	function checkAnswers() {
+		const correct = [];
 		questions.forEach((question, index) => {
 			const userAnswer = selectedAnswers[index];
 			const correctAnswer = question.correct_answer;
 
 			if (userAnswer === correctAnswer) {
-				setCorrectAnswers((prev) => [...prev, index]);
+				correct.push(index);
 			}
-
-
-			setIsCompleted(true);
 		});
+
+		setCorrectAnswers(correct);
+		setIsCompleted(true);
 	}
 
 	if (isStarted)
@@ -121,10 +131,13 @@ function App() {
 						{!loading && questions.length > 0 && (
 							<div className="footer-container">
 								{isCompleted ? (
-									<p>
-										You scored {correctAnswers.length}/{questions.length}{" "}
-										correct answers
-									</p>
+									<>
+										<p className="score">
+											You scored {correctAnswers.length}/{questions.length}{" "}
+											correct answers
+										</p>
+										<button className="restart-btn" onClick={onRestart}>Play again</button>
+									</>
 								) : (
 									<button
 										className="check-btn"
