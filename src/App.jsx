@@ -4,6 +4,7 @@ import he from "he";
 
 function App() {
 	const [isStarted, setIsStarted] = useState(false);
+	const [quizRound, setQuizRound] = useState(0);
 	const [isCompleted, setIsCompleted] = useState(false);
 	const [questions, setQuestions] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -34,8 +35,10 @@ function App() {
 		const fetchData = async () => {
 			try {
 				setLoading(true);
-				const response = await fetch(API_URL);
+				setError(null);
+				setQuestions([]); // so old questions disappear during loading
 
+				const response = await fetch(API_URL);
 				if (!response.ok) {
 					throw new Error(`HTTP error! status: ${response.status}`);
 				}
@@ -63,19 +66,19 @@ function App() {
 		};
 
 		fetchData();
-	}, [isStarted]);
+	}, [isStarted, quizRound]);
 
 	function onStart() {
 		setIsStarted(true);
-		
+		setQuizRound((prev) => prev + 1);  // first fetch
 	}
 
 	function onRestart() {
-		setIsStarted(false);
-		setLoading(true);
+		// Keep isStarted true, just reset game state + refetch
 		setIsCompleted(false);
 		setSelectedAnswers({});
 		setCorrectAnswers([]);
+		setQuizRound((prev) => prev + 1) // trigger next fetch
 	}
 
 	function handleAnswerSelect(questionIndex, answer) {
@@ -89,7 +92,7 @@ function App() {
 		const correct = [];
 		questions.forEach((question, index) => {
 			const userAnswer = selectedAnswers[index];
-			const correctAnswer = question.correct_answer;
+			const correctAnswer = he.decode(question.correct_answer);
 
 			if (userAnswer === correctAnswer) {
 				correct.push(index);
@@ -115,7 +118,7 @@ function App() {
 								: questions.map((item, index) => {
 										return (
 											<Question
-												key={index}
+												key={`${quizRound}-${index}`} // force fresh Question state each round
 												questionIndex={index}
 												question={he.decode(item.question)}
 												allAnswers={item.allAnswers}
