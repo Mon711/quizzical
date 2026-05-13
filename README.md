@@ -2,6 +2,10 @@
 
 A fun and interactive quiz application built with React. Test your knowledge with randomly shuffled multiple-choice questions fetched from the Open Trivia Database.
 
+## Live Demo
+
+🚀 **[Play the quiz here](https://quizzical-react-scrimba.netlify.app/)**
+
 ## Features
 
 - 🎯 **Dynamic Quiz Loading** - Fetches fresh trivia questions from the Open Trivia Database API
